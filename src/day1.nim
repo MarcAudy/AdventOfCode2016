@@ -26,21 +26,35 @@ proc day1*() =
                 else:
                     facing = (facing + 1) %% 4
 
-                for step in 0 ..< parseInt(line[bounds][1..^1]):
+                if checkVisited:
+                    for step in 0 ..< parseInt(line[bounds][1..^1]):
+                        case facing:
+                            of 0:
+                                P.y -= 1
+                            of 1:
+                                P.x += 1
+                            of 2:
+                                P.y += 1
+                            of 3:
+                                P.x -= 1
+                            else:
+                                doAssert(false)
+
+                        if (checkVisited and visited.containsOrIncl(P)):
+                            echo "PART2: " & $(abs(P.x) + abs(P.y))
+                            checkVisited = false
+                            
+                else:
                     case facing:
                         of 0:
-                            P.y -= 1
+                            P.y -= parseInt(line[bounds][1..^1])
                         of 1:
-                            P.x += 1
+                            P.x += parseInt(line[bounds][1..^1])
                         of 2:
-                            P.y += 1
+                            P.y += parseInt(line[bounds][1..^1])
                         of 3:
-                            P.x -= 1
+                            P.x -= parseInt(line[bounds][1..^1])
                         else:
-                            doAssert(false)
-
-                    if (checkVisited and visited.containsOrIncl(P)):
-                        echo "PART2: " & $(abs(P.x) + abs(P.y))
-                        checkVisited = false
+                            doAssert(false)                    
 
             echo "PART1: " & $(abs(P.x) + abs(P.y))
