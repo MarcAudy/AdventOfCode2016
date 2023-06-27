@@ -1,5 +1,6 @@
 import os
 import regex
+import sets
 import strutils
 
 proc day1*() =
@@ -10,8 +11,9 @@ proc day1*() =
     while f.read_line(line):
 
         var facing = 0
-        var x = 0
-        var y = 0
+        var P = (x: 0, y: 0)
+        var checkVisited = true
+        var visited = toHashSet([P])
 
         var m: RegexMatch
         doAssert line.match(re"(?:\s*(.\d*)(?:,|$))+", m)
@@ -24,16 +26,21 @@ proc day1*() =
                 else:
                     facing = (facing + 1) %% 4
 
-                case facing:
-                    of 0:
-                        y -= parseInt(line[bounds][1..^1])
-                    of 1:
-                        x += parseInt(line[bounds][1..^1])
-                    of 2:
-                        y += parseInt(line[bounds][1..^1])
-                    of 3:
-                        x -= parseInt(line[bounds][1..^1])
-                    else:
-                        doAssert(false)
+                for step in 0 ..< parseInt(line[bounds][1..^1]):
+                    case facing:
+                        of 0:
+                            P.y -= 1
+                        of 1:
+                            P.x += 1
+                        of 2:
+                            P.y += 1
+                        of 3:
+                            P.x -= 1
+                        else:
+                            doAssert(false)
 
-            echo "PART1: " & $(abs(x) + abs(y))
+                    if (checkVisited and visited.containsOrIncl(P)):
+                        echo "PART2: " & $(abs(P.x) + abs(P.y))
+                        checkVisited = false
+
+            echo "PART1: " & $(abs(P.x) + abs(P.y))
