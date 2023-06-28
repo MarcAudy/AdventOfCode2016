@@ -18,43 +18,30 @@ proc day1*() =
         var m: RegexMatch
         doAssert line.match(re"(?:\s*(.\d*)(?:,|$))+", m)
 
-        for i in 0 ..< m.groupsCount:
-            for bounds in m.group(i):
+        for bounds in m.group(0):
 
-                if line[bounds][0] == 'L':
-                    facing = (facing - 1) %% 4
-                else:
-                    facing = (facing + 1) %% 4
+            if line[bounds][0] == 'L':
+                facing = (facing - 1) %% 4
+            else:
+                facing = (facing + 1) %% 4
 
-                if checkVisited:
-                    for step in 0 ..< parseInt(line[bounds][1..^1]):
-                        case facing:
-                            of 0:
-                                P.y -= 1
-                            of 1:
-                                P.x += 1
-                            of 2:
-                                P.y += 1
-                            of 3:
-                                P.x -= 1
-                            else:
-                                doAssert(false)
+            let steps = parseInt(line[bounds][1..^1])
+            for step in 0 ..< steps:
+                case facing:
+                    of 0:
+                        P.y -= 1
+                    of 1:
+                        P.x += 1
+                    of 2:
+                        P.y += 1
+                    of 3:
+                        P.x -= 1
+                    else:
+                        doAssert(false)
 
-                        if (checkVisited and visited.containsOrIncl(P)):
-                            echo "PART2: " & $(abs(P.x) + abs(P.y))
-                            checkVisited = false
-                            
-                else:
-                    case facing:
-                        of 0:
-                            P.y -= parseInt(line[bounds][1..^1])
-                        of 1:
-                            P.x += parseInt(line[bounds][1..^1])
-                        of 2:
-                            P.y += parseInt(line[bounds][1..^1])
-                        of 3:
-                            P.x -= parseInt(line[bounds][1..^1])
-                        else:
-                            doAssert(false)                    
+                if (checkVisited and visited.containsOrIncl(P)):
+                    echo "PART2: " & $(abs(P.x) + abs(P.y))
+                    checkVisited = false
+     
 
-            echo "PART1: " & $(abs(P.x) + abs(P.y))
+        echo "PART1: " & $(abs(P.x) + abs(P.y))
