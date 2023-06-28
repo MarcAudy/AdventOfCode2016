@@ -1,6 +1,7 @@
 #import day1
 #import day2
-import day2_part2
+#import day2_part2
+import day3
 
 #[import std/times
 proc timeFunction(f: proc(), count: int = 1): float =
@@ -11,4 +12,4 @@ proc timeFunction(f: proc(), count: int = 1): float =
     return endTime - startTime
 ]#
 
-day2_part2()
+day3()
