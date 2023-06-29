@@ -1,9 +1,4 @@
-#import day1
-#import day2
-#import day2_part2
-#import day3
-import day3_part2
-
+import day4
 #[import std/times
 proc timeFunction(f: proc(), count: int = 1): float =
     let startTime = cpuTime()
@@ -13,4 +8,4 @@ proc timeFunction(f: proc(), count: int = 1): float =
     return endTime - startTime
 ]#
 
-day3_part2()
+day4()
