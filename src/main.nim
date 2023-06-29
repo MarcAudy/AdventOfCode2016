@@ -1,4 +1,4 @@
-import day7
+import day8
 #[import std/times
 proc timeFunction(f: proc(), count: int = 1): float =
     let startTime = cpuTime()
@@ -8,4 +8,4 @@ proc timeFunction(f: proc(), count: int = 1): float =
     return endTime - startTime
 ]#
 
-day7()
+day8()
