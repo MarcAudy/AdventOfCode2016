@@ -38,4 +38,14 @@ proc day4*() =
         if goodRoom:
             goodRoomSum += sectorID
 
-    echo $goodRoomSum
+            var newLine = ""
+            if goodRoom:
+                for c in name:
+                    if c == '-':
+                        newLine &= ' '
+                    else:
+                        newLine &= char(((int(c) - int('a') + sectorID) %% 26) + int('a'))
+
+                echo $sectorID, ' ', newLine
+
+    echo "PART1: ", $goodRoomSum
