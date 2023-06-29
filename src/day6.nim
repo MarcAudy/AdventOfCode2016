@@ -7,7 +7,8 @@ proc day6*() =
     defer: f.close()
     var line : string
 
-    var passcode = ""
+    var part1_passcode = ""
+    var part2_passcode = ""
     var counts: array[0..7, CountTable[char]]
 
     while f.read_line(line):
@@ -17,7 +18,9 @@ proc day6*() =
 
     for i in 0..7:
         if counts[i].len() > 0:
-            passcode &= counts[i].largest().key
+            part1_passcode &= counts[i].largest().key
+            part2_passcode &= counts[i].smallest().key
 
-    echo passcode
+    echo "PART1: ", part1_passcode
+    echo "PART2: ", part2_passcode
     
