@@ -11,7 +11,7 @@ proc drawGrid(grid: array[GridHeight, uint64]) =
     for row in 0..<GridHeight:
         var gridLine = ""
         for col in 0..<GridWidth:
-            gridLine &= (if (grid[row] and (1u64 shl col)) != 0: '#' else: '.')
+            gridLine &= (if (grid[row] and (1u64 shl col)) != 0: '#' else: ' ')
         echo gridLine
     echo ""
 
@@ -58,10 +58,9 @@ proc day8*() =
                         grid[row].setBit(col)
                     else:
                         grid[row].clearBit(col)
-                
-        #drawGrid(grid)
 
     var enabledBits = 0
     grid.apply(proc (row: uint64) = enabledBits += row.countSetBits())
 
     echo $enabledBits
+    drawGrid(grid)
