@@ -46,8 +46,7 @@ proc day10*() =
         let low = bots[nextBot].min()
 
         if high == 61 and low == 17:
-            echo nextBot
-            break
+            echo "PART1: ", nextBot
 
         let inst = instructions[nextBot]
 
@@ -68,4 +67,6 @@ proc day10*() =
                 botsWithTwo.add(inst.giveToHigh)
 
         bots.del(nextBot)
+
+    echo "PART2: ", $(outputs[0]*outputs[1]*outputs[2])
             
