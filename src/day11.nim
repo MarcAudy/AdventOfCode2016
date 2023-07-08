@@ -1,6 +1,5 @@
 import lists
 import sets
-import tables
 import sequtils
 
 type ObjectTypes = enum
@@ -10,11 +9,15 @@ type ObjectTypes = enum
     RutheniumGenerator
     StrontiumGenerator
     ThuliumGenerator
+    EleriumGenerator
+    DilithiumGenerator
     PlutoniumMicrochip
     PromethiumMicrochip
     RutheniumMicrochip
     StrontiumMicrochip
     ThuliumMicrochip
+    EleriumMicrochip
+    DilithiumMicrochip
 
 type Floor = set[ObjectTypes]
 type Building = array[4, Floor]
@@ -32,8 +35,13 @@ let problemInitialBuilding: Building =
      {PromethiumGenerator, PromethiumMicrochip, RutheniumGenerator, RutheniumMicrochip},
      {}]
 
+let problemPart2InitialBuilding: Building =
+    [{Elevator, ThuliumMicrochip, ThuliumGenerator, PlutoniumGenerator, StrontiumGenerator, EleriumMicrochip, EleriumGenerator, DilithiumMicrochip, DilithiumGenerator},
+     {PlutoniumMicrochip, StrontiumMicrochip},
+     {PromethiumGenerator, PromethiumMicrochip, RutheniumGenerator, RutheniumMicrochip},
+     {}]
+
 var seenBuildings: HashSet[Building]
-var prevBuildings: Table[Building, Building]
 
 const GeneratorMask: Floor = {PlutoniumGenerator,PromethiumGenerator,RutheniumGenerator,StrontiumGenerator,ThuliumGenerator}
 
@@ -74,7 +82,8 @@ iterator generateNewFloors(fromFloor: Floor, toFloor: Floor): tuple[newFrom: Flo
 proc day11*() =
 
     #let initialBuilding = sampleInitialBuilding
-    let initialBuilding = problemInitialBuilding
+    #let initialBuilding = problemInitialBuilding
+    let initialBuilding = problemPart2InitialBuilding
 
     let goalCount = foldl(initialBuilding, a + len(b), 0)
 
