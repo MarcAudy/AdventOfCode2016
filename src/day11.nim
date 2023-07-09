@@ -57,6 +57,10 @@ proc validFloor(floor: Floor): bool =
             return false
         if (ThuliumMicrochip in floor) and (ThuliumGenerator notin floor):
             return false
+        if (EleriumMicrochip in floor) and (EleriumGenerator notin floor):
+            return false
+        if (DilithiumMicrochip in floor) and (DilithiumGenerator notin floor):
+            return false
     return true
 
 iterator generateNewFloors(fromFloor: Floor, toFloor: Floor): tuple[newFrom: Floor, newTo: Floor] =
