@@ -170,7 +170,6 @@ proc day11*() =
                     newState.building.setFloor(elevatorFloor, newFloors.newFrom)
                     newState.building.setFloor(elevatorFloor+1, newFloors.newTo)
                     if not seenBuildings.containsOrIncl(newState.building):
-                        seenBuildings.incl(newState.building)
                         newState.steps += 1
                         statesToConsider.add(newState)
 
@@ -181,7 +180,6 @@ proc day11*() =
                     newState.building.setFloor(elevatorFloor, newFloors.newFrom)
                     newState.building.setFloor(elevatorFloor-1, newFloors.newTo)
                     if not seenBuildings.containsOrIncl(newState.building):
-                        seenBuildings.incl(newState.building)
                         newState.steps += 1
                         statesToConsider.add(newState)
         
