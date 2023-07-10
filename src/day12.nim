@@ -2,6 +2,9 @@ import os
 import regex
 import strutils
 
+#const DAY12_PART1 = 1
+const DAY12_PART2 = 1
+
 type Commands = enum
     Copy,
     Inc,
@@ -18,7 +21,11 @@ type Argument = object
     else:
         discard
 
-var registers = [0,0,0,0]
+when declared(DAY12_PART1):
+    var registers = [0,0,0,0]
+
+when declared(DAY12_PART2):
+    var registers = [0,0,1,0]
 
 proc newArgument(arg: string): Argument =
     if arg[0] in {'a','b','c','d'}:
@@ -52,7 +59,6 @@ proc day12*() =
     while f.read_line(line):
 
         var m: RegexMatch
-        echo line
         doAssert line.match(re"(\w+) (\w+)(?: (.*))?", m)
 
         case m.groupFirstCapture(0,line):
