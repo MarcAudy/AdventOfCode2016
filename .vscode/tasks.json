@@ -6,7 +6,9 @@
         {
             "label": "Build Nim Project",
             "type": "shell",
-            "command": "nim c --out:bin/main -d:debug --debugger:native src/main.nim",
+            //"command": "nim c --out:bin/main -d:debug --debugger:native src/main.nim",
+            //"command": "nim c --out:bin/main -d:release --profiler:on --stacktrace:on src/main.nim",
+            "command": "nim c --out:bin/main -d:release src/main.nim",
             "group": {
                 "kind": "build",
                 "isDefault": true
