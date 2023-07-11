@@ -1,5 +1,6 @@
 import algorithm
 import bitops
+import sequtils
 
 #const DAY13_SAMPLE = 1
 
@@ -74,4 +75,5 @@ proc day13*() =
         considerNextPoint((curPoint.x + 1, curPoint.y))
         considerNextPoint((curPoint.x, curPoint.y + 1))
 
-    echo foundDistance
+    echo "PART1: ", foundDistance
+    echo "PART2: ", grid.foldl(a + b.countIt(it in 1..50), 0)
