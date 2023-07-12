@@ -13,7 +13,10 @@ proc day15*() =
     #const discs: array[2, Disc] = [(5,4),(2,1)]
 
     #Part 1
-    const discs: array[6, Disc] = [(13,11),(5,0),(17,11),(3,0),(7,2),(19,17)]
+    #const discs: array[6, Disc] = [(13,11),(5,0),(17,11),(3,0),(7,2),(19,17)]
+
+    #Part 2
+    const discs: array[7, Disc] = [(13,11),(5,0),(17,11),(3,0),(7,2),(19,17),(11,0)]
 
     var time = 0
     while true:
