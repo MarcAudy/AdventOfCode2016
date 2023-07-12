@@ -9,7 +9,11 @@ proc day16*() =
     #const initialState = "10000"
 
     # Part 1
-    const targetSize = 272
+    #const targetSize = 272
+    #const initialState = "11101000110010100"
+
+    # Part 2
+    const targetSize = 35651584
     const initialState = "11101000110010100"
 
     var state = initialState.toSeq().map(proc(ch: char): int = int(ch)-int('0'))
