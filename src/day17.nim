@@ -37,17 +37,21 @@ proc day17*() =
     var statesToConsider: SinglyLinkedList[State]
     statesToConsider.add(((0,0), ""))
 
-    block mainLoop:
-        while statesToConsider.head != nil:
-            let curState = statesToConsider.head.value
-            statesToConsider.remove(statesToConsider.head)
+    var longestPath = 0
 
-            let doorStates = checkDoors(curState)
+    while statesToConsider.head != nil:
+        let curState = statesToConsider.head.value
+        statesToConsider.remove(statesToConsider.head)
 
-            for door, doorState in doorStates.pairs():
-                if doorState.open:
-                    if doorState.nextPoint == (3,3):
-                        echo curState.path & door
-                        break mainLoop
-                    else:
-                        statesToConsider.add((doorState.nextPoint,curState.path & door))
+        let doorStates = checkDoors(curState)
+
+        for door, doorState in doorStates.pairs():
+            if doorState.open:
+                if doorState.nextPoint == (3,3):
+                    if longestPath == 0:
+                        echo "PART1: ", curState.path & door
+                    longestPath = len(curState.path) + 1
+                else:
+                    statesToConsider.add((doorState.nextPoint,curState.path & door))
+
+    echo "PART2: ", longestPath
