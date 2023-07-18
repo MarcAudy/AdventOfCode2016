@@ -26,10 +26,15 @@ proc day20*() =
         ranges.insert(nextRange, ranges.lowerBound(nextRange, compareRanges))
 
     var validIP = 0
+    var validCount = 0
     for r in ranges:
         if validIP < r.min:
-            break
+            if validCount == 0:
+                echo "PART1: ", validIP
+
+            validCount += r.min - validIP
+
         if validIP <= r.max:
             validIP = r.max + 1
 
-    echo validIP
+    echo "PART2: ", validCount
