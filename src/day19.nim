@@ -1,3 +1,5 @@
+import lists
+
 #const DAY19_PART1 = 1
 const DAY19_PART2 = 1
 
@@ -8,35 +10,37 @@ const DAY19_PART2 = 1
 const initialElfCount = 3005290
 
 proc day19*() =
+ 
+    when declared(DAY19_PART1):
+        var firstElf = 1
+        var elfStep = 1
+        var elfCount = initialElfCount
+        while elfCount > 1:
+            elfStep *= 2
+            if elfCount %% 2 == 1:
+                firstElf += elfStep
+            elfCount = int(elfCount / 2)
+        echo firstElf
 
-    var elves: seq[bool]
-    for i in 1..initialElfCount:
-        elves.add(true)
+    when declared(DAY19_PART2):
+        var elfToRemove: DoublyLinkedNode[int]
+        var elves: DoublyLinkedRing[int]
+        for i in 1..initialElfCount:
+            elves.add(i)
+            if i == int(initialElfCount / 2) + 1:
+                elfToRemove = elves.head.prev
 
-    var remainingElves = initialElfCount
+        var remainingElves = initialElfCount
 
-    proc getNextValidElf(curElf: int): int = 
-        var nextElf = (curElf + 1) %% len(elves)
-        while not elves[nextElf]:
-            nextElf = (nextElf + 1) %% len(elves)
-        return nextElf
+        var elf = elves.head
+        while elf.next != elf:
+            let nextElfToRemove = elfToRemove.next
+            elves.remove(elfToRemove)
+            elf = elf.next
 
-    proc getElfToRemove(curElf: int): int =
-        when declared(DAY19_PART1):
-            return getNextValidElf(curElf)
-        when declared(DAY19_PART2):
-            var elfToRemove = curElf
-            var nextElfCount = int(remainingElves / 2)
-            while nextElfCount > 0:
-                elfToRemove = getNextValidElf(elfToRemove)
-                dec nextElfCount
-            return elfToRemove
+            elfToRemove = nextElfToRemove
+            if remainingElves %% 2 == 1:
+                elfToRemove = elfToRemove.next
+            dec remainingElves
 
-    var elfIndex = 0
-    while remainingElves > 1:
-        let elfToRemove = getElfToRemove(elfIndex)
-        elves[elfToRemove] = false
-        dec remainingElves
-        elfIndex = getNextValidElf(elfIndex)
-
-    echo elfIndex + 1
+        echo elf.value
