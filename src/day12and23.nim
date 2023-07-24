@@ -22,7 +22,7 @@ type Argument = object
     else:
         discard
 
-type Puzzle* = enum Day12_Part1, Day12_Part2, Day23_Part1
+type Puzzle* = enum Day12_Part1, Day12_Part2, Day23_Part1, Day23_Part2
 
 proc newArgument(arg: string): Argument =
     if arg[0] in {'a','b','c','d'}:
@@ -50,6 +50,9 @@ proc day12and23*(mode: Puzzle) =
         of Day23_Part1:
             registers = [7,0,0,0]
             file = "day23"
+        of Day23_Part2:
+            registers = [12,0,0,0]
+            file = "day23"
 
     proc getValue(arg: Argument): int =
         case arg.argType:
@@ -60,9 +63,7 @@ proc day12and23*(mode: Puzzle) =
         else:
             doAssert false
 
-
     const runSample = false
-
     let f = open(os.getAppDir() & "\\..\\input\\" & file & (if runSample: "_sample.txt" else: ".txt"))
     defer: f.close()
     var line : string
