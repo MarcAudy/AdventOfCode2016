@@ -11,6 +11,7 @@ type Point = tuple[
 type GridObj = enum
     Wall,
     Open,
+    Zero,
     One,
     Two,
     Three,
@@ -20,7 +21,7 @@ type GridObj = enum
     Seven
 type GridObjs = set[GridObj]
 
-const GridObjChars = {'#':Wall,'.':Open,'1':One,'2':Two,'3':Three,'4':Four,'5':Five,'6':Six,'7':Seven}.toTable
+const GridObjChars = {'#':Wall,'.':Open,'0':Zero,'1':One,'2':Two,'3':Three,'4':Four,'5':Five,'6':Six,'7':Seven}.toTable
 
 type State = tuple[
     steps: int,
@@ -34,8 +35,9 @@ type SeenState = tuple[
 ]
 
 type Result = enum Continue, Finished
+type Day24_Part* = enum Day24_Part1, Day24_Part2
 
-proc day24*() =
+proc day24*(part: Day24_Part) =
 
     const runSample = false
 
@@ -51,11 +53,9 @@ proc day24*() =
     while f.read_line(line):
         grid.setLen(grid.len()+1)
         for c in line:
-            if c == '0':
-                grid[high(grid)].add(Open)
+            grid[high(grid)].add(GridObjChars[c])
+            if GridObjChars[c] == Zero:
                 startPos = (high(grid[high(grid)]),high(grid)) 
-            else:
-                grid[high(grid)].add(GridObjChars[c])
 
     var stateStore: SinglyLinkedList[State]
     var seenStates: HashSet[SeenState]
@@ -69,11 +69,15 @@ proc day24*() =
                 inc nextState.steps
                 nextState.curPoint = nextPoint
                 if nextGridObj != Open:
-                    incl(nextState.objState, nextGridObj)
-                    if nextState.objState == targetObjState:
-                        echo nextState
-                        return Finished
 
+                    if nextGridObj != Zero:
+                        incl(nextState.objState, nextGridObj)
+
+                    if part == Day24_Part1 or nextGridObj == Zero:
+                        if nextState.objState == targetObjState:
+                            echo nextState.steps
+                            return Finished
+                        
                 if not seenStates.containsOrIncl((nextState.curPoint,nextState.objState)):
                     stateStore.add(nextState)
 
