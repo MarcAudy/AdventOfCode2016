@@ -7,9 +7,10 @@ type Commands = enum
     Inc,
     Dec,
     JNZ,
-    Toggle
+    Toggle,
+    Out
 
-const ToggleMap = {Copy:JNZ, Inc:Dec, Dec:Inc, JNZ:Copy, Toggle:Inc}.toTable
+const ToggleMap = {Copy:JNZ, Inc:Dec, Dec:Inc, JNZ:Copy, Toggle:Inc, Out:Inc}.toTable
 
 type ArgumentType = enum None, Value, Register
 type Argument = object
@@ -38,6 +39,7 @@ type ABMRegisters* = array[4,int]
 type AssembunnyMachine* = object
     registers: ABMRegisters
     program: seq[Instruction]
+    output: seq[int]
 
 proc newABM*(sourceFile: string): AssembunnyMachine =
 
@@ -63,16 +65,18 @@ proc newABM*(sourceFile: string): AssembunnyMachine =
                 ABM.program.add((JNZ,newArgument(m.groupFirstCapture(1,line)),newArgument(m.groupFirstCapture(2,line))))
             of "tgl":
                 ABM.program.add((Toggle,newArgument(m.groupFirstCapture(1,line)),Argument(argType:None)))
+            of "out":
+                ABM.program.add((Out,newArgument(m.groupFirstCapture(1,line)),Argument(argType:None)))           
             else:
                 doAssert false
 
     return ABM
 
-proc setRegisters*(this: var AssembunnyMachine, registers: ABMRegisters) =
-    this.registers = registers
-
 proc getRegisters*(this: AssembunnyMachine): ABMRegisters =
     return this.registers
+
+proc getOutput*(this: AssembunnyMachine): seq[int] =
+    return this.output
 
 proc getArgValue(this: AssembunnyMachine, arg: Argument): int =
     case arg.argType:
@@ -83,7 +87,11 @@ proc getArgValue(this: AssembunnyMachine, arg: Argument): int =
     else:
         doAssert false
 
-proc run*(this: var AssembunnyMachine, outputLimit: int = 0) =
+proc run*(this: var AssembunnyMachine, startRegisters: ABMRegisters, outputLimit: int = 0) =
+
+    this.registers = startRegisters
+    this.output.setLen(0)
+
     var IP = 0
     while IP < this.program.len():
         case this.program[IP].command:
@@ -105,4 +113,9 @@ proc run*(this: var AssembunnyMachine, outputLimit: int = 0) =
             let inst = IP + this.getArgValue(this.program[IP].arg1)
             if inst in 0..high(this.program):
                 this.program[inst].command = ToggleMap[this.program[inst].command]                   
+            inc IP
+        of Out:
+            this.output.add(this.getArgValue(this.program[IP].arg1))
+            if this.output.len() == outputLimit:
+                return
             inc IP
