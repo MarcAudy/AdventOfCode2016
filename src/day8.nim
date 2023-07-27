@@ -62,5 +62,6 @@ proc day8*() =
     var enabledBits = 0
     grid.apply(proc (row: uint64) = enabledBits += row.countSetBits())
 
-    echo $enabledBits
+    echo "DAY8 PART1: ", $enabledBits
+    echo "DAY8 PART2:"
     drawGrid(grid)

@@ -61,5 +61,5 @@ proc day7*() =
         if supportsSSL(line):
             supportsSSL += 1
 
-    echo "PART1: ", $supportsTLS
-    echo "PART2: ", $supportsSSL
+    echo "DAY7 PART1: ", $supportsTLS
+    echo "DAY7 PART2: ", $supportsSSL

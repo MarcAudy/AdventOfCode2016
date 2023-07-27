@@ -21,6 +21,6 @@ proc day6*() =
             part1_passcode &= counts[i].largest().key
             part2_passcode &= counts[i].smallest().key
 
-    echo "PART1: ", part1_passcode
-    echo "PART2: ", part2_passcode
+    echo "DAY6 PART1: ", part1_passcode
+    echo "DAY6 PART2: ", part2_passcode
     
