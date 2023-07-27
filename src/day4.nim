@@ -46,6 +46,11 @@ proc day4*() =
                     else:
                         newLine &= char(((int(c) - int('a') + sectorID) %% 26) + int('a'))
 
-                echo $sectorID, ' ', newLine
+                # This output all unscrambled sectors, going through them identified that
+                # the desired room was "northpole object storage" which the final implementation
+                # now outputs the sector ID of
+                # echo $sectorID, ' ', newLine
+                if newLine == "northpole object storage":
+                    echo "DAY4 PART2: ", $sectorID
 
-    echo "PART1: ", $goodRoomSum
+    echo "DAY4 PART1: ", $goodRoomSum

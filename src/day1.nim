@@ -40,8 +40,8 @@ proc day1*() =
                         doAssert(false)
 
                 if (checkVisited and visited.containsOrIncl(P)):
-                    echo "PART2: " & $(abs(P.x) + abs(P.y))
+                    echo "DAY1 PART2: " & $(abs(P.x) + abs(P.y))
                     checkVisited = false
      
 
-        echo "PART1: " & $(abs(P.x) + abs(P.y))
+        echo "DAY1 PART1: " & $(abs(P.x) + abs(P.y))

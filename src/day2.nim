@@ -50,5 +50,5 @@ proc day2*() =
     let part1_start = (x: 2, y: 2)
     let part2_start = (x: 1, y: 3)
 
-    walkGrid(part1_grid, part1_start, "PART1: ")
-    walkGrid(part2_grid, part2_start, "PART2: ")
+    walkGrid(part1_grid, part1_start, "DAY2 PART1: ")
+    walkGrid(part2_grid, part2_start, "DAY2 PART2: ")
