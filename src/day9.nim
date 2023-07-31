@@ -1,6 +1,5 @@
 import os
 import regex
-import seqUtils
 import strutils
 
 proc day9*() =
@@ -9,23 +8,28 @@ proc day9*() =
     defer: f.close()
     var line: string
 
-
-    while f.read_line(line):
-
-        var decompressedLength = 0
+    proc countSegment(segment: string): array[2, int] =
+        var decompressedLength: array[2, int] = [0,0]
         var i = 0
-        while i < line.len():
-            if line[i] == '(':
+        while i < segment.len():
+            if segment[i] == '(':
                 var m: RegexMatch
-                doAssert line[i+1..^1].match(re"((\d+)x(\d+)\)).*", m)
-                let segLength = parseInt(m.groupFirstCapture(1,line[i+1..^1]))
-                let repCount = parseInt(m.groupFirstCapture(2,line[i+1..^1]))
-                let markerLength = m.groupFirstCapture(0,line[i+1..^1]).len() + 1
-                decompressedLength += segLength * repCount
+                doAssert segment[i+1..^1].match(re"((\d+)x(\d+)\)).*", m)
+                let segLength = parseInt(m.groupFirstCapture(1,segment[i+1..^1]))
+                let repCount = parseInt(m.groupFirstCapture(2,segment[i+1..^1]))
+                let markerLength = m.groupFirstCapture(0,segment[i+1..^1]).len() + 1
+                decompressedLength[0] += segLength * repCount
+                decompressedLength[1] += repCount * countSegment(segment[i+markerLength..<i+markerLength+segLength])[1]
                 i += segLength + markerLength
 
             else:
-                decompressedLength += 1
-                i += 1
+                inc decompressedLength[0]
+                inc decompressedLength[1]
+                inc i
+        
+        return decompressedLength
 
-        echo $decompressedLength
+    while f.read_line(line):
+        let result = countSegment(line)
+        echo "DAY9 PART1: ", result[0]
+        echo "DAY9 PART2: ", result[1]
